@@ -2,226 +2,1011 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Pro Business Card Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pro Registration Website</title>
+
+  <!-- Google Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Roboto', sans-serif; }
+    body { background: linear-gradient(135deg,#667eea,#764ba2); color: #333; }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+    /* Navbar */
+    nav {
+      width: 100%;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 50px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
 
-body {
-  font-family: 'Poppins', sans-serif;
-  background: #0f0c29;
-  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-  color: #fff;
-  min-height: 100vh;
-}
+    nav .logo { font-size: 24px; font-weight: 700; color: white; }
+    nav ul { list-style: none; display: flex; gap: 25px; }
+    nav ul li a {
+      text-decoration: none; color: white;
+      font-weight: 500; transition: 0.3s;
+    }
+    nav ul li a:hover { color: #ffd700; }
 
-.container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 30px;
-  padding: 50px 20px;
-}
+    /* Hero Section */
+    .hero {
+      display: flex; justify-content: center; align-items: center;
+      padding: 50px 20px; min-height: 100vh;
+    }
 
-.form-box {
-  background: rgba(255,255,255,0.05);
-  padding: 30px;
-  border-radius: 20px;
-  backdrop-filter: blur(12px);
-  width: 350px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-}
+    /* Form Container */
+    .form-container {
+      background: rgba(255,255,255,0.95);
+      border-radius: 20px;
+      padding: 50px;
+      width: 100%;
+      max-width: 700px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+      backdrop-filter: blur(15px);
+      animation: fadeIn 1s ease forwards;
+    }
 
-.form-box h1 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  text-align: center;
-}
+    .form-container h2 {
+      text-align: center; font-size: 32px; font-weight: 700; margin-bottom: 30px;
+      color: #333;
+    }
 
-.form-box input, .form-box select {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 10px;
-  outline: none;
-}
+    .form-group {
+      position: relative; margin-bottom: 25px;
+    }
 
-.form-box button {
-  width: 100%;
-  padding: 14px;
-  background: #ff416c;
-  border: none;
-  border-radius: 12px;
-  color: white;
-  font-weight: 600;
-  font-size: 16px;
-  margin-top: 15px;
-  cursor: pointer;
-  transition: 0.3s;
-}
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%; padding: 18px 18px 18px 18px; border-radius: 12px; border: 1px solid #ccc;
+      font-size: 16px; outline: none; transition: 0.3s; background: rgba(255,255,255,0.9);
+    }
 
-.form-box button:hover {
-  background: #ff4b2b;
-}
+    .form-group label {
+      position: absolute; top: 18px; left: 18px; color: #aaa;
+      font-size: 16px; pointer-events: none; transition: 0.3s;
+    }
 
-.preview-box {
-  display: flex;
-  align-items: center;
-}
+    .form-group input:focus + label,
+    .form-group input:not(:placeholder-shown) + label,
+    .form-group select:focus + label,
+    .form-group select:not([value=""]) + label,
+    .form-group textarea:focus + label,
+    .form-group textarea:not(:placeholder-shown) + label {
+      top: -10px; left: 12px; font-size: 13px; color: #667eea; background: white; padding: 0 5px;
+    }
 
-.card {
-  position: relative;
-  width: 340px;
-  padding: 30px;
-  border-radius: 20px;
-  text-align: center;
-  overflow: hidden;
-  box-shadow: 0 12px 24px rgba(0,0,0,0.5);
-}
+    .form-group i { position: absolute; top: 18px; right: 18px; color: #aaa; }
 
-.card img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #fff;
-  margin-bottom: 15px;
-}
+    .submit-btn {
+      width: 100%; padding: 18px; border: none; border-radius: 12px; background: #667eea; color: white;
+      font-size: 18px; font-weight: 500; cursor: pointer; transition: 0.3s;
+    }
+    .submit-btn:hover { background: #764ba2; }
 
-.card h2 {
-  margin-bottom: 6px;
-  font-size: 22px;
-}
+    .success-msg, .error-msg {
+      text-align: center; margin-top: 20px; padding: 12px; border-radius: 10px; display: none;
+      font-weight: 500;
+    }
+    .success-msg { background: #d4edda; color: #155724; }
+    .error-msg { background: #f8d7da; color: #721c24; }
 
-.card p {
-  margin: 3px 0;
-  font-size: 14px;
-}
+    @keyframes fadeIn { 0%{opacity:0;transform:translateY(20px);}100%{opacity:1;transform:translateY(0);} }
 
-.card-bg {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: -1;
-  border-radius: 20px;
-  opacity: 0.6;
-}
-
-/* Design Themes */
-
-.design1 .card-bg {
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
-}
-
-.design2 .card-bg {
-  background: linear-gradient(135deg, #00b09b, #96c93d);
-}
-
-.design3 .card-bg {
-  background: linear-gradient(135deg, #ff512f, #dd2476);
-}
-
-.design4 .card-bg {
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.design5 .card-bg {
-  background: linear-gradient(135deg, #232526, #414345);
-}
-
-footer {
-  text-align: center;
-  margin: 40px 0 20px;
-  font-size: 14px;
-  color: #aaa;
-  }
+    @media(max-width:768px){ nav{padding:15px 20px;} .form-container{padding:30px 20px;} }
   </style>
-  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <section class="container">
-    <div class="form-box">
-      <h1>🖥️ Create Your Business Card</h1>
-      <input type="text" id="name" placeholder="Full Name">
-      <input type="text" id="title" placeholder="Job Title">
-      <input type="text" id="phone" placeholder="Phone Number">
-      <input type="email" id="email" placeholder="Email">
-      
-      <label>Select Design</label>
-      <select id="theme">
-        <option value="design1">Royal Blue</option>
-        <option value="design2">Neon Green</option>
-        <option value="design3">Sunset Orange</option>
-        <option value="design4">Glassmorphism</option>
-        <option value="design5">Dark Mode</option>
-      </select>
-      
-      <label>Upload Photo</label>
-      <input type="file" id="photo" accept="image/*">
-      
-      <button onclick="generateCard()">Generate Card</button>
-      <button onclick="downloadCard()" class="download-btn">Download Card</button>
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">ProRegister</div>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Features</a></li>
+      <li><a href="#">Pricing</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero & Form -->
+  <section class="hero">
+    <div class="form-container">
+      <h2>Register for Your Account</h2>
+      <form id="myForm">
+
+        <!-- Name -->
+        <div class="form-group">
+          <input type="text" id="name" placeholder=" " required>
+          <label for="name">Full Name</label>
+          <i class="fa fa-user"></i>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <input type="email" id="email" placeholder=" " required>
+          <label for="email">Email</label>
+          <i class="fa fa-envelope"></i>
+        </div>
+
+        <!-- Phone -->
+        <div class="form-group">
+          <input type="text" id="phone" placeholder=" " required>
+          <label for="phone">Phone</label>
+          <i class="fa fa-phone"></i>
+        </div>
+
+        <!-- Username -->
+        <div class="form-group">
+          <input type="text" id="username" placeholder=" " required>
+          <label for="username">Username</label>
+          <i class="fa fa-user-circle"></i>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <input type="password" id="password" placeholder=" " required>
+          <label for="password">Password</label>
+          <i class="fa fa-lock"></i>
+        </div>
+
+        <!-- Gender -->
+        <div class="form-group">
+          <select id="gender" required>
+            <option value="" disabled selected hidden></option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+          <label for="gender">Gender</label>
+          <i class="fa fa-venus-mars"></i>
+        </div>
+
+        <!-- DOB -->
+        <div class="form-group">
+          <input type="date" id="dob" placeholder=" " required>
+          <label for="dob">Date of Birth</label>
+          <i class="fa fa-calendar"></i>
+        </div>
+
+        <!-- Address -->
+        <div class="form-group">
+          <textarea id="address" rows="4" placeholder=" " required></textarea>
+          <label for="address">Address</label>
+          <i class="fa fa-home"></i>
+        </div>
+
+        <button type="submit" class="submit-btn">Submit</button>
+      </form>
+
+      <div class="success-msg" id="successMsg">Data saved successfully!</div>
+      <div class="error-msg" id="errorMsg">Error saving data.</div>
+    </div>
+  </section>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDfZMceYwe9hoCk6cKO4Pi8zLsgxjXb7uc",
+      authDomain: "mynetflix-1902e.firebaseapp.com",
+      projectId: "mynetflix-1902e",
+      storageBucket: "mynetflix-1902e.appspot.com",
+      messagingSenderId: "213754965273",
+      appId: "1:213754965273:web:15abebbfbc3fd95716a988",
+      measurementId: "G-FHR2WTDNVZ"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const myForm = document.getElementById('myForm');
+    const successMsg = document.getElementById('successMsg');
+    const errorMsg = document.getElementById('errorMsg');
+
+    myForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const data = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value,
+        gender: document.getElementById('gender').value,
+        dob: document.getElementById('dob').value,
+        address: document.getElementById('address').value,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      };
+
+      db.collection('users').add(data)
+        .then(() => {
+          successMsg.style.display = 'block';
+          errorMsg.style.display = 'none';
+          myForm.reset();
+        })
+        .catch((error) => {
+          console.error("Error adding document: ", error);
+          errorMsg.style.display = 'block';
+          successMsg.style.display = 'none';
+        });
+    });
+  </script>
+
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luxury Designer Registration</title>
+
+<!-- Google Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Roboto',sans-serif;}
+  body{
+    min-height:100vh;
+    background: linear-gradient(-45deg,#667eea,#764ba2,#6a11cb,#2575fc);
+    background-size:400% 400%;
+    animation: gradientBG 15s ease infinite;
+    display:flex; justify-content:center; align-items:center; padding:20px;
+    overflow-x:hidden;
+  }
+  @keyframes gradientBG{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+
+  /* Navbar */
+  nav{
+    width:100%; position:fixed; top:0; left:0; padding:20px 50px;
+    display:flex; justify-content:space-between; align-items:center;
+    background:rgba(255,255,255,0.1); backdrop-filter:blur(15px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.3); z-index:1000;
+  }
+  nav .logo{font-size:28px;font-weight:700;color:#fff;text-shadow:1px 1px 5px rgba(0,0,0,0.3);}
+  nav ul{list-style:none;display:flex;gap:30px;}
+  nav ul li a{text-decoration:none;color:#fff;font-weight:500;transition:0.3s;}
+  nav ul li a:hover{color:#ffd700;}
+
+  /* Hero */
+  .hero{
+    display:flex; justify-content:center; align-items:center;
+    min-height:100vh; width:100%; padding-top:80px;
+  }
+
+  /* Form Container */
+  .form-container{
+    background: rgba(255,255,255,0.08); backdrop-filter:blur(25px);
+    border-radius:30px; padding:50px 40px; width:100%; max-width:750px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6),0 0 30px rgba(255,255,255,0.1) inset;
+    border:1px solid rgba(255,255,255,0.2);
+    animation: slideUp 1s ease forwards;
+  }
+  @keyframes slideUp{0%{opacity:0;transform:translateY(50px);}100%{opacity:1;transform:translateY(0);}}
+
+  .form-container h2{
+    text-align:center;font-size:38px;color:#fff;margin-bottom:40px;
+    text-shadow:2px 2px 15px rgba(0,0,0,0.5);
+  }
+
+  /* Form Fields */
+  .form-group{position:relative;margin-bottom:30px;}
+  .form-group input,
+  .form-group select,
+  .form-group textarea{
+    width:100%;padding:20px 20px 20px 20px;border-radius:15px;border:none;
+    outline:none;font-size:16px;background:rgba(255,255,255,0.15);color:#fff;
+    transition:0.4s; box-shadow:0 4px 15px rgba(255,255,255,0.1);
+  }
+  .form-group::after{
+    content:'';position:absolute;left:0;bottom:0;width:0%;height:2px;background:linear-gradient(90deg,#ffd700,#ff00ff);transition:0.4s;
+  }
+  .form-group input:focus::after,
+  .form-group textarea:focus::after,
+  .form-group select:focus::after{width:100%;}
+
+  .form-group label{
+    position:absolute;top:20px;left:20px;color:rgba(255,255,255,0.7);font-size:16px;
+    pointer-events:none;transition:0.3s;
+  }
+  .form-group input:focus + label,
+  .form-group input:not(:placeholder-shown) + label,
+  .form-group select:focus + label,
+  .form-group select:not([value=""]) + label,
+  .form-group textarea:focus + label,
+  .form-group textarea:not(:placeholder-shown) + label{
+    top:-10px; left:15px; font-size:13px; color:#ffd700; background:rgba(0,0,0,0.25); padding:0 5px; border-radius:3px;
+    text-shadow:0 0 5px #ffd700;
+  }
+
+  .form-group i{
+    position:absolute; top:20px; right:20px; color:rgba(255,255,255,0.5);
+    transition:0.3s;
+  }
+  .form-group input:focus + label + i,
+  .form-group select:focus + label + i,
+  .form-group textarea:focus + label + i{color:#ffd700;}
+
+  .submit-btn{
+    width:100%; padding:20px; border:none; border-radius:20px;
+    background: linear-gradient(90deg,#ffd700,#ff00ff); color:#111;
+    font-size:22px;font-weight:700; cursor:pointer; transition:0.5s;
+    box-shadow:0 8px 25px rgba(255,255,255,0.5);
+  }
+  .submit-btn:hover{
+    background: linear-gradient(90deg,#ff00ff,#ffd700); transform:translateY(-3px);
+    box-shadow:0 12px 30px rgba(255,255,255,0.7);
+  }
+
+  /* Success & Error */
+  .success-msg,.error-msg{
+    text-align:center;margin-top:20px;padding:15px;border-radius:12px;
+    display:none;font-weight:700;font-size:16px;
+  }
+  .success-msg{background:#d4edda;color:#155724;}
+  .error-msg{background:#f8d7da;color:#721c24;}
+
+  @media(max-width:768px){
+    nav{padding:15px 20px;}
+    .form-container{padding:35px 20px;}
+    .form-container h2{font-size:32px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+  <div class="logo">LuxuryForm</div>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Features</a></li>
+    <li><a href="#">Pricing</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Hero & Form -->
+<section class="hero">
+  <div class="form-container">
+    <h2>Exclusive Registration</h2>
+    <form id="myForm">
+
+      <div class="form-group">
+        <input type="text" id="name" placeholder=" " required>
+        <label for="name">Full Name</label>
+        <i class="fa fa-user"></i>
+      </div>
+
+      <div class="form-group">
+        <input type="email" id="email" placeholder=" " required>
+        <label for="email">Email</label>
+        <i class="fa fa-envelope"></i>
+      </div>
+
+      <div class="form-group">
+        <input type="text" id="phone" placeholder=" " required>
+        <label for="phone">Phone</label>
+        <i class="fa fa-phone"></i>
+      </div>
+
+      <div class="form-group">
+        <input type="text" id="username" placeholder=" " required>
+        <label for="username">Username</label>
+        <i class="fa fa-user-circle"></i>
+      </div>
+
+      <div class="form-group">
+        <input type="password" id="password" placeholder=" " required>
+        <label for="password">Password</label>
+        <i class="fa fa-lock"></i>
+      </div>
+
+      <div class="form-group">
+        <select id="gender" required>
+          <option value="" disabled selected hidden></option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+        <label for="gender">Gender</label>
+        <i class="fa fa-venus-mars"></i>
+      </div>
+
+      <div class="form-group">
+        <input type="date" id="dob" placeholder=" " required>
+        <label for="dob">Date of Birth</label>
+        <i class="fa fa-calendar"></i>
+      </div>
+
+      <div class="form-group">
+        <textarea id="address" rows="4" placeholder=" " required></textarea>
+        <label for="address">Address</label>
+        <i class="fa fa-home"></i>
+      </div>
+
+      <button type="submit" class="submit-btn">Register Now</button>
+    </form>
+
+    <div class="success-msg" id="successMsg">Data saved successfully!</div>
+    <div class="error-msg" id="errorMsg">Error saving data.</div>
+  </div>
+</section>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDfZMceYwe9hoCk6cKO4Pi8zLsgxjXb7uc",
+  authDomain: "mynetflix-1902e.firebaseapp.com",
+  projectId: "mynetflix-1902e",
+  storageBucket: "mynetflix-1902e.appspot.com",
+  messagingSenderId: "213754965273",
+  appId: "1:213754965273:web:15abebbfbc3fd95716a988",
+  measurementId: "G-FHR2WTDNVZ"
+};
+
+const app = firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const myForm = document.getElementById('myForm');
+const successMsg = document.getElementById('successMsg');
+const errorMsg = document.getElementById('errorMsg');
+
+myForm.addEventListener('submit',(e)=>{
+  e.preventDefault();
+  const data={
+    name: document.getElementById('name').value,
+    email: document.getElementById('email').value,
+    phone: document.getElementById('phone').value,
+    username: document.getElementById('username').value,
+    password: document.getElementById('password').value,
+    gender: document.getElementById('gender').value,
+    dob: document.getElementById('dob').value,
+    address: document.getElementById('address').value,
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  };
+  db.collection('users').add(data)
+    .then(()=>{ successMsg.style.display='block'; errorMsg.style.display='none'; myForm.reset(); })
+    .catch((err)=>{ console.error(err); errorMsg.style.display='block'; successMsg.style.display='none'; });
+});
+</script>
+</body>
+</html>
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Luxury 3D Glassmorphism — Register</title>
+
+  <!-- Google Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    /* ===== GLOBAL & RESET ===== */
+    :root{
+      --bg1:#081229; --bg2:#0b2545; --glass-bg: rgba(255,255,255,0.06);
+      --glass-border: rgba(255,255,255,0.12); --accent:#ffd700; --muted:#9aa7c7;
+      --neon: #7c3aed;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto;color:#e6eef8;background:linear-gradient(120deg,var(--bg1),var(--bg2));-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+
+    /* ===== NAVBAR ===== */
+    header.nav{
+      position:fixed;inset:0 0 auto 0;display:flex;align-items:center;justify-content:space-between;padding:18px 32px;
+      z-index:1200;backdrop-filter: blur(8px) saturate(1.1);background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-bottom:1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+    }
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{
+      width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;
+      background:linear-gradient(135deg,#4f46e5,#06b6d4);color:white;box-shadow: 0 8px 24px rgba(99,102,241,0.12);
+    }
+    nav.links{display:flex;gap:18px;align-items:center}
+    nav.links a{color:var(--muted);font-weight:600;padding:8px 12px;border-radius:10px;transition:all .25s}
+    nav.links a:hover{color:var(--accent);transform:translateY(-2px);text-shadow:0 6px 18px rgba(255,215,0,0.06)}
+    .nav-actions{display:flex;gap:8px;align-items:center}
+    .btn{
+      background:linear-gradient(90deg,#111827,#0b1220);color:#fff;border:1px solid rgba(255,255,255,0.04);
+      padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(2,6,23,0.6);
+      transition:transform .18s,box-shadow .18s;
+    }
+    .btn:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(2,6,23,0.7)}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+
+    /* ===== HERO (animated gradient + particles) ===== */
+    .hero{
+      min-height:100vh; display:flex;align-items:center;justify-content:center;padding:120px 20px 80px;
+      position:relative;overflow:hidden;
+      background:linear-gradient(120deg,#071028 0%, #081229 50%, #07102a 100%);
+    }
+    /* animated gradient overlay */
+    .hero::before{
+      content:"";position:absolute;inset:0;background:linear-gradient(60deg, rgba(124,58,237,0.06), rgba(6,182,212,0.06));mix-blend-mode:screen;pointer-events:none;
+      filter: blur(40px);transform:translateZ(0);animation:slowShift 10s linear infinite;
+    }
+    @keyframes slowShift{0%{transform:translateX(-10%)}50%{transform:translateX(10%)}100%{transform:translateX(-10%)}}
+
+    /* Particles canvas */
+    canvas#particles{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:0.65}
+
+    /* 3D glass card container */
+    .glass-wrap{position:relative;z-index:10;display:flex;gap:28px;align-items:center;flex-wrap:wrap;justify-content:center}
+    .glass-card{
+      width:420px;max-width:95%;border-radius:20px;padding:26px;background:linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border:1px solid var(--glass-border);backdrop-filter: blur(14px) saturate(1.2);
+      box-shadow: 0 30px 80px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      transform-style:preserve-3d; transition:transform .35s cubic-bezier(.2,.9,.2,1);
+    }
+    .glass-card:hover{transform: translateY(-8px) rotateX(2deg) rotateY(-2deg);}
+
+    /* subtle 3D border glow */
+    .glass-card::after{
+      content:"";position:absolute;inset:0;border-radius:20px;padding:1px;background:linear-gradient(90deg, rgba(124,58,237,0.06), rgba(255,215,0,0.04));mask:linear-gradient(#fff,#000);
+      pointer-events:none;mix-blend-mode:screen;
+    }
+
+    /* Form styling: floating neon labels */
+    .form{
+      display:grid;gap:14px;
+    }
+    .field{
+      position:relative;
+    }
+    .field input,.field textarea,.field select{
+      width:100%;padding:16px 16px 16px 44px;border-radius:12px;border:none;background:rgba(255,255,255,0.03);color:#fff;font-size:15px;
+      outline:none;transition:box-shadow .2s, transform .15s;
+      box-shadow: inset 0 -8px 20px rgba(0,0,0,0.6);
+    }
+    .field input::placeholder{color:transparent}
+    .field label{
+      position:absolute;left:44px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600;pointer-events:none;transition:all .18s;
+      background:transparent;padding:0 6px;border-radius:6px;
+    }
+    .field .icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:16px}
+    .field input:focus, .field textarea:focus, .field select:focus{box-shadow: 0 8px 30px rgba(124,58,237,0.06), inset 0 -8px 24px rgba(255,255,255,0.02)}
+    .field input:focus + label, .field input:not(:placeholder-shown) + label,
+    .field textarea:focus + label, .field textarea:not(:placeholder-shown) + label,
+    .field select:focus + label, .field select:not([value=""]) + label{
+      top:-10px;left:12px;font-size:12px;color:var(--accent);background:rgba(0,0,0,0.12)
+    }
+
+    /* password strength */
+    .pw-strength{height:8px;border-radius:6px;background:rgba(255,255,255,0.06);overflow:hidden;margin-top:6px}
+    .pw-strength .bar{height:100%;width:0%;background:linear-gradient(90deg,#ff4d4d,#ffd700,#7c3aed);transition:width .25s}
+
+    /* submit */
+    .submit{
+      display:inline-flex;align-items:center;gap:10px;justify-content:center;padding:14px 20px;border-radius:12px;border:none;
+      background:linear-gradient(90deg,#ffd700,#ff00ff);color:#081229;font-weight:800;font-size:16px;cursor:pointer;transition:transform .16s;
+      box-shadow:0 16px 40px rgba(255,0,150,0.08);
+    }
+    .submit:hover{transform:translateY(-4px)}
+
+    /* Success / error */
+    .msg{margin-top:12px;padding:12px;border-radius:10px;display:none;font-weight:700;text-align:center}
+    .msg.success{background:linear-gradient(90deg,#16a34a11,#16a34a22);color:#a7f3d0;border:1px solid rgba(22,163,74,0.12)}
+    .msg.error{background:linear-gradient(90deg,#ef444411,#ef444422);color:#fecaca;border:1px solid rgba(239,68,68,0.12)}
+
+    /* Pricing cards (3D glass) */
+    .pricing{
+      display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin-top:60px;
+    }
+    .price-card{
+      width:300px;border-radius:18px;padding:22px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border:1px solid rgba(255,255,255,0.06);backdrop-filter: blur(10px);box-shadow:0 30px 60px rgba(2,6,23,0.6);
+      transition:transform .24s, box-shadow .24s;cursor:pointer;
+    }
+    .price-card:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 40px 90px rgba(2,6,23,0.75)}
+    .price-card h4{font-size:20px;margin-bottom:8px}
+    .price{font-weight:800;font-size:28px;margin:12px 0}
+
+    /* Contact */
+    .contact{
+      margin-top:40px;padding:18px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);backdrop-filter:blur(8px)
+    }
+
+    /* responsive */
+    @media (max-width:980px){
+      .glass-wrap{flex-direction:column;align-items:center}
+      .price-card{width:100%}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav" role="banner">
+    <div class="brand">
+      <div class="logo">Lux3D</div>
+      <div style="line-height:1">
+        <div style="font-weight:800">Lux3D Studio</div>
+        <div style="font-size:12px;color:var(--muted)">Ultra-luxury UI</div>
+      </div>
     </div>
 
-    <div class="preview-box">
-      <div id="card" class="card design1">
-        <div class="card-bg"></div>
-        <img id="cardPhoto" src="https://via.placeholder.com/100" alt="Photo">
-        <h2 id="cardName">Your Name</h2>
-        <p id="cardTitle">Your Title</p>
-        <p><span id="cardPhone">+91 00000 00000</span></p>
-        <p><span id="cardEmail">you@example.com</span></p>
+    <nav class="links" role="navigation">
+      <a href="#hero" data-scroll>Register</a>
+      <a href="#pricing" data-scroll>Pricing</a>
+      <a href="#contact" data-scroll>Contact</a>
+    </nav>
+
+    <div class="nav-actions">
+      <div id="authArea">
+        <button class="btn ghost" id="openAuth">Login / Signup</button>
+      </div>
+      <div id="userArea" style="display:none;align-items:center;gap:8px">
+        <div id="userEmail" style="color:var(--muted);font-weight:600"></div>
+        <button class="btn" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="hero" class="hero">
+    <canvas id="particles"></canvas>
+
+    <div class="glass-wrap" role="main">
+      <!-- Registration Glass Card -->
+      <div class="glass-card" aria-labelledby="regTitle">
+        <h3 id="regTitle" style="font-size:22px;margin-bottom:8px">Join the Elite</h3>
+        <p style="color:var(--muted);margin-bottom:18px">Register for exclusive designer access</p>
+
+        <form id="regForm" class="form" novalidate>
+          <div class="field">
+            <i class="fa fa-user icon"></i>
+            <input id="fullName" type="text" placeholder=" " required>
+            <label for="fullName">Full Name</label>
+          </div>
+
+          <div class="field">
+            <i class="fa fa-envelope icon"></i>
+            <input id="email" type="email" placeholder=" " required>
+            <label for="email">Email</label>
+          </div>
+
+          <div class="field">
+            <i class="fa fa-phone icon"></i>
+            <input id="phone" type="text" placeholder=" " required>
+            <label for="phone">Phone</label>
+          </div>
+
+          <div class="field">
+            <i class="fa fa-lock icon"></i>
+            <input id="password" type="password" placeholder=" " required>
+            <label for="password">Password</label>
+            <div class="pw-strength" aria-hidden="true"><div class="bar" id="pwBar"></div></div>
+          </div>
+
+          <div class="field">
+            <i class="fa fa-venus-mars icon"></i>
+            <select id="gender" required>
+              <option value="" disabled selected hidden>Choose</option>
+              <option>Male</option><option>Female</option><option>Other</option>
+            </select>
+            <label for="gender">Gender</label>
+          </div>
+
+          <div class="field">
+            <i class="fa fa-calendar icon"></i>
+            <input id="dob" type="date" placeholder=" ">
+            <label for="dob">Date of Birth</label>
+          </div>
+
+          <div class="field">
+            <i class="fa fa-home icon"></i>
+            <textarea id="address" rows="3" placeholder=" "></textarea>
+            <label for="address">Address</label>
+          </div>
+
+          <div style="display:flex;gap:12px;margin-top:6px">
+            <button class="submit" type="submit" id="submitBtn">Register Now</button>
+            <button class="btn ghost" type="button" id="clearBtn">Clear</button>
+          </div>
+
+          <div class="msg success" id="successMsg">Registration saved — thank you.</div>
+          <div class="msg error" id="errorMsg">Error saving registration. Try again.</div>
+        </form>
+      </div>
+
+      <!-- Short feature/teaser panel -->
+      <div class="glass-card" style="width:360px;max-width:92%;text-align:left">
+        <h3 style="margin-bottom:10px">Ultra Features</h3>
+        <ul style="color:var(--muted);line-height:1.8">
+          <li>3D glassmorphism UI</li>
+          <li>Encrypted Firestore storage</li>
+          <li>Animated gradient + particles</li>
+          <li>Responsive & accessible</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <footer>
-    <p>✨ Created by You | 2025</p>
-  <!-- html2canvas CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!-- PRICING -->
+  <section id="pricing" style="padding:80px 20px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)">
+    <div style="max-width:1100px;margin:0 auto">
+      <h2 style="text-align:center;margin-bottom:18px;font-size:28px">Pricing Plans</h2>
+      <div class="pricing" role="list">
+        <div class="price-card" role="listitem" aria-label="Basic plan">
+          <h4>Basic</h4>
+          <div class="price">$9 / mo</div>
+          <p class="muted">For personal showcases</p>
+          <ul class="muted" style="margin-top:12px">
+            <li>Access to 50 templates</li>
+            <li>Basic support</li>
+          </ul>
+        </div>
 
-<script>
-  function generateCard() {
-    document.getElementById("cardName").innerText = document.getElementById("name").value || "Your Name";
-    document.getElementById("cardTitle").innerText = document.getElementById("title").value || "Your Title";
-    document.getElementById("cardPhone").innerText = document.getElementById("phone").value || "+91 00000 00000";
-    document.getElementById("cardEmail").innerText = document.getElementById("email").value || "you@example.com";
+        <div class="price-card" role="listitem" aria-label="Pro plan">
+          <h4>Pro</h4>
+          <div class="price">$29 / mo</div>
+          <p class="muted">For professional designers</p>
+          <ul class="muted" style="margin-top:12px">
+            <li>Access to 300 templates</li>
+            <li>Priority support</li>
+            <li>Cloud saving</li>
+          </ul>
+        </div>
 
-    let theme = document.getElementById("theme").value;
-    let card = document.getElementById("card");
+        <div class="price-card" role="listitem" aria-label="Elite plan">
+          <h4>Elite</h4>
+          <div class="price">$99 / mo</div>
+          <p class="muted">Enterprise & branding</p>
+          <ul class="muted" style="margin-top:12px">
+            <li>Custom templates</li>
+            <li>Dedicated manager</li>
+            <li>Onboarding & SLA</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    card.className = `card ${theme}`;
+  <!-- CONTACT -->
+  <section id="contact" class="contact" style="max-width:1000px;margin:48px auto;padding:28px">
+    <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+      <div>
+        <h3 style="margin-bottom:8px">Contact</h3>
+        <p class="muted">Call us: <strong style="color:var(--accent)">+91 7494849585</strong></p>
+        <p class="muted">Email: <strong>hello@lux3d.example</strong></p>
+      </div>
 
-    let photo = document.getElementById("photo").files[0];
-    if(photo){
-      let reader = new FileReader();
-      reader.onload = function(e){
-        document.getElementById("cardPhoto").src = e.target.result;
-      }
-      reader.readAsDataURL(photo);
-    } else {
-      document.getElementById("cardPhoto").src = "";
-    }
-  }
+      <form id="contactForm" style="min-width:280px;flex:1;max-width:480px;display:flex;gap:8px;flex-direction:column">
+        <input type="text" id="cname" placeholder="Name" style="padding:12px;border-radius:10px;border:none;background:rgba(255,255,255,0.03);color:#fff">
+        <input type="email" id="cemail" placeholder="Email" style="padding:12px;border-radius:10px;border:none;background:rgba(255,255,255,0.03);color:#fff">
+        <textarea id="cmsg" rows="3" placeholder="Message" style="padding:12px;border-radius:10px;border:none;background:rgba(255,255,255,0.03);color:#fff"></textarea>
+        <div style="display:flex;gap:8px">
+          <button class="btn" id="csend" type="button">Send</button>
+        </div>
+      </form>
+    </div>
+  </section>
 
-  function downloadCard() {
-    const card = document.getElementById('card');
-    html2canvas(card).then(canvas => {
-      const link = document.createElement('a');
-      link.download = 'business-card.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
+  <!-- FOOTER SHORT -->
+  <footer style="text-align:center;padding:22px;color:var(--muted)">© Lux3D Studio — Ultra Luxury UI</footer>
+
+  <!-- Firebase SDK (namespaced v8 for single-file simplicity) -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+  <script>
+  /* =========================
+     Ultra-Luxury 3D Glassmorphism Script
+     - Particles
+     - Smooth scroll
+     - Form behavior, password strength
+     - Firebase initialization and Firestore save
+     ========================= */
+
+  // ---- Smooth scroll for navbar links ----
+  document.querySelectorAll('a[data-scroll]').forEach(a=>{
+    a.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const href = a.getAttribute('href');
+      if(!href || href === '#') return;
+      const target = document.querySelector(href);
+      if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+
+  // ---- Particles (canvas) ----
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let W = canvas.width = window.innerWidth;
+  let H = canvas.height = window.innerHeight;
+  window.addEventListener('resize', ()=>{W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight;});
+  // generate particles
+  const particles = [];
+  const PARTICLE_COUNT = Math.min(120, Math.floor(W/10));
+  function rand(min,max){return Math.random()*(max-min)+min;}
+  for(let i=0;i<PARTICLE_COUNT;i++){
+    particles.push({
+      x: rand(0,W), y: rand(0,H),
+      r: rand(0.6,2.6), vx: rand(-0.25,0.25), vy: rand(-0.25,0.25),
+      hue: rand(180,320), alpha: rand(0.06,0.25)
     });
   }
-</script>
+  function drawParticles(){
+    ctx.clearRect(0,0,W,H);
+    for(const p of particles){
+      p.x += p.vx; p.y += p.vy;
+      if(p.x < -50) p.x = W+50; if(p.x > W+50) p.x = -50;
+      if(p.y < -50) p.y = H+50; if(p.y > H+50) p.y = -50;
+      ctx.beginPath();
+      const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*6);
+      g.addColorStop(0, `hsla(${p.hue},80%,65%,${p.alpha})`);
+      g.addColorStop(0.4, `hsla(${(p.hue+40)%360},70%,55%,${p.alpha*0.7})`);
+      g.addColorStop(1, `rgba(10,14,30,0)`);
+      ctx.fillStyle = g;
+      ctx.arc(p.x,p.y,p.r*6,0,Math.PI*2);
+      ctx.fill();
+    }
+    requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+
+  // ---- Password strength indicator ----
+  const passwordInput = document.getElementById('password');
+  const pwBar = document.getElementById('pwBar');
+  function scorePassword(pw){
+    let score = 0;
+    if(!pw) return 0;
+    if(pw.length >= 8) score += 1;
+    if(/[A-Z]/.test(pw)) score += 1;
+    if(/[0-9]/.test(pw)) score += 1;
+    if(/[^A-Za-z0-9]/.test(pw)) score += 1;
+    if(pw.length >= 12) score += 1;
+    return score;
+  }
+  passwordInput.addEventListener('input', ()=>{
+    const s = scorePassword(passwordInput.value);
+    const pct = (s/5)*100;
+    pwBar.style.width = pct + '%';
+    if(s <= 1) pwBar.style.background = 'linear-gradient(90deg,#ff4d4d,#ff7a7a)';
+    else if(s === 2) pwBar.style.background = 'linear-gradient(90deg,#ff8a00,#ffd700)';
+    else if(s === 3) pwBar.style.background = 'linear-gradient(90deg,#ffd700,#7c3aed)';
+    else pwBar.style.background = 'linear-gradient(90deg,#7c3aed,#06b6d4)';
+  });
+
+  // ---- Simple utils ----
+  function showMsg(el, text, timeout=3500){
+    el.textContent = text; el.style.display='block'; el.style.opacity=1;
+    setTimeout(()=>{ el.style.opacity=0; setTimeout(()=>el.style.display='none',350); }, timeout);
+  }
+
+  // ---- Firebase init ----
+  const firebaseConfig = {
+    apiKey: "AIzaSyDfZMceYwe9hoCk6cKO4Pi8zLsgxjXb7uc",
+    authDomain: "mynetflix-1902e.firebaseapp.com",
+    projectId: "mynetflix-1902e",
+    storageBucket: "mynetflix-1902e.appspot.com",
+    messagingSenderId: "213754965273",
+    appId: "1:213754965273:web:15abebbfbc3fd95716a988"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const auth = firebase.auth();
+
+  // ---- Registration form save ----
+  const regForm = document.getElementById('regForm');
+  const successMsg = document.getElementById('successMsg');
+  const errorMsg = document.getElementById('errorMsg');
+  regForm.addEventListener('submit', async (ev)=>{
+    ev.preventDefault();
+    // basic validation
+    const data = {
+      name: document.getElementById('fullName').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      password: document.getElementById('password').value, // in production do NOT store plain passwords — use Firebase Auth
+      gender: document.getElementById('gender').value,
+      dob: document.getElementById('dob').value,
+      address: document.getElementById('address').value.trim(),
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    // simple validation
+    if(!data.name || !data.email){ showMsg(errorMsg, 'Please fill required fields.'); return; }
+    try{
+      // Note: In production, use Firebase Authentication to create user accounts.
+      // Here we store registration records in Firestore for demonstration.
+      await db.collection('registrations').add(data);
+      regForm.reset(); pwBar.style.width='0%';
+      showMsg(successMsg, 'Registration saved. Thank you!');
+    }catch(err){
+      console.error(err);
+      showMsg(errorMsg, 'Failed to save registration.');
+    }
+  });
+
+  // ---- Contact form send (optional) ----
+  document.getElementById('csend').addEventListener('click', async ()=>{
+    const name = document.getElementById('cname').value.trim();
+    const email = document.getElementById('cemail').value.trim();
+    const msg = document.getElementById('cmsg').value.trim();
+    if(!name || !email || !msg){ alert('Please complete the contact form'); return; }
+    try{
+      await db.collection('contacts').add({name,email,msg,createdAt: firebase.firestore.FieldValue.serverTimestamp()});
+      alert('Message sent. Thank you.');
+      document.getElementById('cname').value=''; document.getElementById('cemail').value=''; document.getElementById('cmsg').value='';
+    }catch(err){ console.error(err); alert('Failed to send message'); }
+  });
+
+  // ---- Clear button ----
+  document.getElementById('clearBtn').addEventListener('click', ()=>{ regForm.reset(); pwBar.style.width='0%'; });
+
+  // ---- Navbar smooth scroll ----
+  document.querySelectorAll('nav.links a').forEach(a=>{
+    a.addEventListener('click',(e)=>{
+      e.preventDefault();
+      const id = a.getAttribute('href').replace('#','');
+      const el = document.getElementById(id);
+      if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+    });
+  });
+
+  // ---- Simple Auth modal (Login/Signup) ----
+  const openAuthBtn = document.getElementById('openAuth');
+  const authArea = document.getElementById('authArea');
+  const userArea = document.getElementById('userArea');
+  const userEmailEl = document.getElementById('userEmail');
+  // Minimal quick auth demo: create user via Firebase Auth (email/password) and show UID
+  openAuthBtn.addEventListener('click', ()=>{
+    const email = prompt('Enter email to sign in/up (demo):');
+    if(!email) return;
+    const pass = prompt('Enter password (min 6):');
+    if(!pass) return;
+    // try sign in, otherwise create account
+    auth.signInWithEmailAndPassword(email, pass).then(()=>{ alert('Signed in'); })
+      .catch(async ()=> {
+        try{
+          const cred = await auth.createUserWithEmailAndPassword(email, pass);
+          await db.collection('profiles').doc(cred.user.uid).set({email, createdAt: firebase.firestore.FieldValue.serverTimestamp()});
+          alert('Account created & signed in');
+        }catch(err){ alert('Auth error: ' + err.message); }
+      });
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', ()=>{ auth.signOut(); });
+
+  auth.onAuthStateChanged(user=>{
+    if(user){
+      authArea.style.display='none'; userArea.style.display='flex'; userEmailEl.textContent = user.email || user.uid;
+    } else {
+      authArea.style.display='flex'; userArea.style.display='none'; userEmailEl.textContent = '';
+    }
+  });
+
+  // ---- Accessibility: focus styles ----
+  document.addEventListener('keydown',(e)=>{ if(e.key==='Tab') document.body.classList.add('show-focus'); });
+
+  </script>
 </body>
 </html>
+
 
